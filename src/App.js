@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
+import ExpensesAdd from './components/Expenses/ExpensesAdd';
 
 const dummyExpenses = [
   {
@@ -28,17 +29,24 @@ const dummyExpenses = [
   }];
 function App() {
   const [expenses, setExpenses] = useState(dummyExpenses);
+  const [showForm, setShowForm] = useState(false);
 
   const addExpenseHandler = (expense) => {
+    setShowForm(!showForm);
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
+      
     });
+  }
+  const changeFormHandler = () => {
+    setShowForm(!showForm);
   }
 
   return (
     <div className="App"style={{textAlign:'center'}}>
-      <NewExpense onAddExpense = {addExpenseHandler} />
-      <Expenses items={expenses}/> 
+      {showForm ? <NewExpense onAddExpense = {addExpenseHandler} changeFormHandler={changeFormHandler}/> : <ExpensesAdd changeFormHandler={changeFormHandler}/>}
+      <Expenses items={expenses} /> 
+      
     </div>
   );
 }
